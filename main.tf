@@ -33,7 +33,7 @@ module "ocp-infra" {
 #####################################################################################
 ###   Gluster
 #####################################################################################
-module "ocp-infra" {
+module "gluster" {
   source                   = "./modules/cluster"
   ssh_public_key           = "${var.ssh_public_key}"
   vpc_id                   = "${var.vpc_id}"
