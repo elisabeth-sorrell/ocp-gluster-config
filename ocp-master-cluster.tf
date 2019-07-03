@@ -58,7 +58,7 @@ resource "aws_alb_target_group_attachment" "ocp_master_target_attachment" {
 # Create the OCP Master cluster instances
 resource "aws_instance" "ocp_master_cluster" {
   count              = "${length(var.subnet_azs)}"
-  ami                = "${var.ocp_master_cluster_ami_name}"
+  ami                = "${var.ocp_master_cluster_ami_id}"
   instance_type      = "${var.ocp_master_cluster_instance_type}"
   availability_zone  = "${element(keys(var.subnet_azs), count.index)}"
   //cidr_block         = "${element(values(var.subnet_azs), count.index)}"
