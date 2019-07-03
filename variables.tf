@@ -42,8 +42,8 @@ variable "cidr_blocks" {
   type        = "list"
 }
 
-variable "ocp_master_cluster_ami_name" {
-
+variable "ocp_master_cluster_ami_id" {
+  description = "The ID of the AMI to use for the master OCP cluster"
 }
 
 
