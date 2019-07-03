@@ -1,9 +1,11 @@
 
-# Find our OCP Master cluster AMI
-# data "aws_ami" "ocp-master" {
+# Find our luster AMI
+# -- TODO: maybe we can make our own AMI with packer and
+#    use this for using it.
+# data "aws_" "cluster_ami" {
 #   most_recent     = true
 #   owners          = ["self"]
-#   id  = "${var.ocp_master_cluster_ami_name}"
+#   id  = "${var.cluster__name}"
 #
 # }
 
@@ -58,7 +60,7 @@ resource "aws_alb_target_group_attachment" "ocp_master_target_attachment" {
 # Create the OCP Master cluster instances
 resource "aws_instance" "ocp_master_cluster" {
   count              = "${length(var.subnet_azs)}"
-  ami                = "${var.ocp_master_cluster_ami_id}"
+                  = "${var.ocp_master_cluster__id}"
   instance_type      = "${var.ocp_master_cluster_instance_type}"
   availability_zone  = "${element(keys(var.subnet_azs), count.index)}"
   //cidr_block         = "${element(values(var.subnet_azs), count.index)}"

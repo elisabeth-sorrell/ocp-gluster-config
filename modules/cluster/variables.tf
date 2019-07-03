@@ -42,8 +42,8 @@ variable "cidr_blocks" {
   type        = "list"
 }
 
-variable "ocp_master_cluster_ami_id" {
-  description = "The ID of the AMI to use for the master OCP cluster"
+variable "cluster_ami_id" {
+  description = "The ID of the AMI to use for the cluster"
 }
 
 
@@ -57,22 +57,22 @@ variable "ocp_master_cluster_ami_id" {
 #   ----
 #   OCP Master Cluster variables
 #   ----
-variable "ocp_master_cluster_name" {
-  description = "name of the OCP master cluster"
-  default     = "ocp-master-cluster"
+variable "cluster_name" {
+  description = "Name of the instance cluster"
+  default     = "cluster"
 }
 
-variable "ocp_master_cluster_port" {
-  description = "Port of the OCP master cluster that we route traffic through."
+variable "cluster_port" {
+  description = "Port of the cluster that we route traffic through."
   default     = "443"
 }
 
-variable "ocp_master_cluster_protocol" {
-  description = "The protocol to reach the OCP cluster through."
+variable "cluster_protocol" {
+  description = "The protocol to reach the cluster through."
   default     = "HTTPS"
 }
 
-variable "ocp_master_cluster_instance_type" {
+variable "cluster_instance_type" {
   description = "The type of instances that the OCP master cluster should be"
   default     = "M5.2XLarge"
 }
