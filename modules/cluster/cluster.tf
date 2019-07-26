@@ -1,58 +1,3 @@
-
-# Find our cluster AMI
-# -- TODO: maybe we can make our own AMI with packer and
-#    use this for using it.
-# data "aws_" "cluster_ami" {
-#   most_recent     = true
-#   owners          = ["self"]
-#   id  = "${var.cluster__name}"
-#
-# }
-
-
-################################################################################
-#  Load Balancer Stuff
-################################################################################
-# Create our Application ALB
-resource "aws_alb" "cluster_alb" {
-  name               = "${var.cluster_name}"
-  security_groups    = [
-    "${aws_security_group.security_group.id}"
-  ]
-  subnets            = ["keys(var.subnet_azs)"]
-}
-
-
-# Create a target group for the alb
-resource "aws_alb_target_group" "cluster_target_group" {
-  name               = "${var.cluster_name}"
-  port               = "${var.cluster_port}"
-  protocol           = "${var.cluster_protocol}"
-  vpc_id             = "${var.vpc_id}"
-
-}
-
-# Make a listener for the target group
-resource "aws_alb_listener" "listener" {
-  load_balancer_arn  = "${aws_alb.cluster_alb.arn}"
-  port               = "${var.cluster_port}"
-  protocol           = "${var.cluster_protocol}"
-
-  default_action {
-    target_group_arn = "${aws_alb_target_group.cluster_target_group.arn}"
-    type             = "forward"
-  }
-}
-
-# Attach the target group from the instances to itself
-resource "aws_alb_target_group_attachment" "target_attachment" {
-  count              = "${length(var.subnet_azs)}"
-  target_group_arn   = "${aws_alb_target_group.cluster_target_group.arn}"
-  target_id          = "${aws_instance.cluster[count.index].id}"
-  port               = "${var.cluster_port}"
-}
-
-
 ################################################################################
 #  EC2 Instance Cluster and associated resources
 ################################################################################
@@ -65,10 +10,17 @@ resource "aws_instance" "cluster" {
   availability_zone  = "${element(keys(var.subnet_azs), count.index)}"
   //cidr_block         = "${element(values(var.subnet_azs), count.index)}"
   key_name           = "${aws_key_pair.cluster_keypair.key_name}"
+  subnet_id          = "${element()}"
 
 
   tags =  {
     Name = "${var.cluster_name}-${count.index}"
+  }
+
+  # The root block device
+  root_block_device =  {
+    # Do we need delete_on_termination set?
+    volume_size     = "${var.cluster_root_volume_size}"
   }
 
   vpc_security_group_ids = ["${aws_security_group.security_group.id}"]

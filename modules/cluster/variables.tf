@@ -39,6 +39,10 @@ variable "cluster_protocol" {
   description = "The protocol to reach the cluster through."
 }
 
+variable "cluster_root_volume_size" {
+  description = "The size, in GB, of the root volume of the instance."
+}
+
 variable "cluster_instance_type" {
   description = "The type of instances that the cluster should be"
 }
