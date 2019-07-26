@@ -18,8 +18,8 @@ variable "aws_region" {
 #  Common Variables across cluster
 ################################################################################
 
-variable "ssh_public_key" {
-  description = "The public key for the keypair associated with all cluster instances"
+variable "key_name" {
+  description = "The name of the keypair to associate with all cluster instances"
   type        = "string"
 }
 variable "vpc_id" {
@@ -106,7 +106,7 @@ variable "ocp_infra_cluster_instance_type" {
 #  Required Variables
 # ----
 variable "gluster_ami_id" {
-  description = "The AMI ID for the OCP Master cluster instances to launch"
+  description = "The AMI ID for the gluster instances to launch"
   type        = "string"
 }
 
@@ -114,8 +114,8 @@ variable "gluster_ami_id" {
 #  Default Variables
 # ----
 variable "gluster_name" {
-  description = "The name of the master OCP cluster"
-  default     = "OCP-Gluster-Infra"
+  description = "The name of the Gluster instances associated with the OCP App clusters"
+  default     = "OCP-Gluster"
 }
 variable "gluster_port" {
   description = "The port to access the master cluster through. Default is 443"
@@ -128,4 +128,27 @@ variable "gluster_protocol" {
 variable "gluster_instance_type" {
   description = "The instance type of the instances of the Master OCP cluster"
   default     = "M5.2XLarge"
+}
+variable "gluster_infra_name" {
+  description = "The name of the gluster infrastructure instances for the OCP clusters"
+  default     = "OCP-Gluster-Infra"
+}
+
+################################################################################
+#  App Variables
+################################################################################
+
+variable "app_name" {
+  description = "The name of the resources associated with the OCP App cluster"
+  default     = "OCP-App"
+}
+
+variable "app_port" {
+  description = "The port to access the OCP app cluster instances through. Default is 443"
+  default     = 443
+}
+
+variable "app_protocol" {
+  description = "The protocol for the OCP App cluster instances. Default is HTTPS"
+  default     = "HTTPS"
 }
